@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" >
+    <title>Товары</title>
+</head>
+<body>
+    <div>
+        <h3>Список</h3>
+        <table>
+            <tr>
+                <td><p>id</p></td>
+                <td><p>Название комплектации</p></td>
+				<td><p>Конфигурация</p></td>
+                <td></td>
+            </tr>
+            {% for p in models %}
+                <tr>
+                    <td><p>{{ p.id }}</p></td>
+                    <td><p>{{ p.nameEngine }}</p></td>
+					<td><p>{{ p.weight }}</p></td>
+					<td><p>{{ p.price }}</p></td>
+                    <td><p><a href="/buy/{{ p.id }}">Купить</a></p></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

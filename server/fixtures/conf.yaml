@@ -1,0 +1,129 @@
+- model: server.engines
+  pk: 1
+  fields:
+    nameEngine: v4
+    weight: 200
+    price: 2000
+- model: server.engines
+  pk: 2
+  fields:
+    nameEngine: v8
+    weight: 400
+    price: 4000
+- model: server.engines
+  pk: 3
+  fields:
+    nameEngine: v12
+    weight: 800
+    price: 10000
+- model: server.transmissions
+  pk: 1
+  fields:
+    nameTransmission: трансмиссия1
+    weight: 500
+    price: 2000
+- model: server.transmissions
+  pk: 2
+  fields:
+    nameTransmission: трансмиссия2
+    weight: 450
+    price: 1500
+- model: server.transmissions
+  pk: 3
+  fields:
+    nameTransmission: трансмиссия3
+    weight: 650
+    price: 3000
+- model: server.drives
+  pk: 1
+  fields:
+    nameDrive: передний привод
+    weight: 650
+    price: 1500
+- model: server.drives
+  pk: 2
+  fields:
+    nameDrive: задний привод
+    weight: 450
+    price: 2500
+- model: server.drives
+  pk: 1
+  fields:
+    nameDrive: полный привод
+    weight: 1000
+    price: 15000
+- model: server.models
+  pk: 2
+  fields:
+    nameModel: вейрон
+- model: server.models
+  pk: 3
+  fields:
+    nameModel: раф4
+- model: server.models
+  pk: 4
+  fields:
+    nameModel: бенз
+- model: server.models
+  pk: 5
+  fields:
+    nameModel: спорт
+- model: server.models
+  pk: 6
+  fields:
+    nameModel: эс класс
+- model: server.models
+  pk: 7
+  fields:
+    nameModel: а класс
+- model: server.configuration
+  pk: 1
+  fields:
+    engine: 1
+    transmission: 1
+    drive: 1
+    model: 1
+- model: server.configuration
+  pk: 2
+  fields:
+    engine: 1
+    transmission: 1
+    drive: 2
+    model: 2
+- model: server.configuration
+  pk: 3
+  fields:
+    engine: 1
+    transmission: 1
+    drive: 3
+    model: 3
+- model: server.configuration
+  pk: 4
+  fields:
+    engine: 1
+    transmission: 2
+    drive: 1
+    model: 4
+- model: server.configuration
+  pk: 5
+  fields:
+    engine: 1
+    transmission: 3
+    drive: 1
+    model: 5
+- model: server.configuration
+  pk: 6
+  fields:
+    engine: 2
+    transmission: 2
+    drive: 1
+    model: 6
+- model: server.configuration
+  pk: 7
+  fields:
+    engine: 2
+    transmission: 2
+    drive: 2
+    model: 7
+    
+   
