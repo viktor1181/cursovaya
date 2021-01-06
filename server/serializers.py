@@ -4,21 +4,6 @@ from .models import *
 
 
 # Create your views here.
-class CarDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Car
-        fields = "__all__"
-
-
-class CarListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Car
-        fields = "__all__"
-
-class CarDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Car
-        fields = "__all__"
 
 class EnginesListSerializer(serializers.ModelSerializer):
     class Meta:
