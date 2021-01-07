@@ -6,6 +6,10 @@ from .serializers import *
 from .models import *
 from django.http import HttpResponse
 from rest_framework import status
+from django.core import serializers
+import json
+from django.forms.models import model_to_dict
+from django.core.serializers.json import DjangoJSONEncoder
 
 # Create your views here.
 
@@ -19,7 +23,8 @@ class EnginesListView(generics.ListAPIView):
         queryset = self.get_queryset()
         serializer = EnginesListSerializer(queryset, many=True)
         #return render(request, 'server/index.html', {'models': queryset})
-        return HttpResponse(serializer.data)
+        data = serializers.serialize('json', queryset)
+        return HttpResponse(data, content_type='application/json')
 
 class TransmissionsListView(generics.ListAPIView):
     serializer_class = TransmissionsListSerializer
@@ -31,7 +36,8 @@ class TransmissionsListView(generics.ListAPIView):
         queryset = self.get_queryset()
         serializer = TransmissionsListSerializer(queryset, many=True)
         #return render(request, 'server/index.html', {'models': queryset})
-        return HttpResponse(serializer.data)
+        data = serializers.serialize('json', queryset)
+        return HttpResponse(data, content_type='application/json')
 
 class DrivesListView(generics.ListAPIView):
     serializer_class = DrivesListSerializer
@@ -43,7 +49,8 @@ class DrivesListView(generics.ListAPIView):
         queryset = self.get_queryset()
         serializer = DrivesListSerializer(queryset, many=True)
         #return render(request, 'server/index.html', {'models': queryset})
-        return HttpResponse(serializer.data)
+        data = serializers.serialize('json', queryset)
+        return HttpResponse(data, content_type='application/json')
 
 class ModelsView(views.APIView):
 
@@ -51,14 +58,16 @@ class ModelsView(views.APIView):
         queryset = Models.objects.all()
         serializer = ModelsListSerializer(queryset, many=True)
         #return render(request, 'server/index.html', {'models': queryset})
-        return HttpResponse(serializer.data)
+        #return HttpResponse(serializer.data)
+        data = serializers.serialize('json', Models.objects.all())
+        return HttpResponse(data, content_type='application/json')
 
     def post(self, request):
         serializer = ModelsListSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return HttpResponse(serializer.data, status=status.HTTP_201_CREATED)
+        return HttpResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ModelsViewDelete(views.APIView):
 
@@ -72,28 +81,34 @@ class ModelsViewDelete(views.APIView):
         serializer = ModelsListSerializer(model, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return HttpResponse(serializer.data)
+        return HttpResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
         model = self.get_object(pk)
         model.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
 class ConfigurationView(views.APIView):
 
     def get(self, request):
         queryset = Configuration.objects.all()
-        serializer = ConfigurationListSerializer(queryset, many=True)
+        #serializer = ConfigurationListSerializer(queryset, many=True)
+        serialized_instance = serializers.serialize('json', [queryset, ])
         #return render(request, 'server/index.html', {'models': queryset})
-        return HttpResponse(serializer.data)
+        #return HttpResponse(serializer.data)
+        #dict_obj = model_to_dict(queryset)
+        #serialized = json.dumps(list(dict_obj), cls=DjangoJSONEncoder)
+        #return HttpResponse(serialized, content_type="application/json")
+        data = serializers.serialize('json', Configuration.objects.all(), fields=(engine,transmission,drive,model))
+        return HttpResponse(data, content_type='application/json')
 
     def post(self, request):
         serializer = ConfigurationListSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return HttpResponse(serializer.data, status=status.HTTP_201_CREATED)
+        return HttpResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ConfigurationViewDelete(views.APIView):
 
@@ -104,14 +119,16 @@ class ConfigurationViewDelete(views.APIView):
             raise Http404
     def put(self, request, pk, format=None):
         model = self.get_object(pk)
-        serializer = ConfigurationListSerializer(model, data=request.data)
+        #serializer = ConfigurationListSerializer(model, data=request.data)
+        serialized_instance = serializers.serialize('json', [model, ])
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            #return HttpResponse(serializer.data)
+            return HttpResponse(serialized_instance, content_type="application/json")
+        return HttpResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
         model = self.get_object(pk)
         model.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
