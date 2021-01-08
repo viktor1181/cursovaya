@@ -10,6 +10,7 @@ from django.core import serializers
 import json
 from django.forms.models import model_to_dict
 from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models import Avg, Count, Min, Sum
 
 
 # Create your views here.
@@ -23,6 +24,7 @@ class EnginesListView(generics.ListAPIView):
         data = serializers.serialize('json', queryset)
         return HttpResponse(data, content_type='application/json')
 
+
 class TransmissionsListView(generics.ListAPIView):
     serializer_class = TransmissionsListSerializer
     queryset = Transmissions.objects.all()
@@ -31,6 +33,7 @@ class TransmissionsListView(generics.ListAPIView):
         queryset = self.get_queryset()
         data = serializers.serialize('json', queryset)
         return HttpResponse(data, content_type='application/json')
+
 
 class DrivesListView(generics.ListAPIView):
     serializer_class = DrivesListSerializer
@@ -81,12 +84,11 @@ class ModelsViewDelete(views.APIView):
 class ConfigurationView(views.APIView):
 
     def get(self, request):
-        data = serializers.serialize('json', Configuration.objects.all(),
-                                     indent=3,
-                                     use_natural_foreign_keys=True,
-                                     use_natural_primary_keys=True
-                                     )
-        # data = serializers.CharField(source="engine.nameEngine")
+        data = ExtJsonSerializer().serialize(Configuration.objects.all(),
+                                             fields=('engine', 'transmission',
+                                                     'drive', 'model'),
+                                             props=('sum', 'avg')
+                                             )
         return HttpResponse(data, content_type='application/json')
 
     def post(self, request):

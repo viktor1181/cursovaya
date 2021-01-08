@@ -83,4 +83,12 @@ class Configuration(models.Model):  # комплектация
     transmission = models.ForeignKey(Transmissions, max_length=200, on_delete=models.CASCADE)
     drive = models.ForeignKey(Drives, max_length=200, on_delete=models.CASCADE)
     model = models.ForeignKey(Models, max_length=200, on_delete=models.CASCADE)
+    @property
+    def sum(self):
+        return self.engine.price + self.transmission.price + self.drive.price
+
+    @property
+    def avg(self):
+        return (self.engine.price + self.transmission.price + self.drive.price)/3
+
 
