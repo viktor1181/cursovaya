@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = 'rr9r$4i&g3uda67&relxx9xp+f0^3vj&&zn9$$7z3hi888)1zy'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -73,7 +71,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Rest.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -83,7 +80,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -104,7 +100,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 100
+    'PAGE_SIZE': 100,
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.BrowsableAPIRenderer',
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.TemplateHTMLRenderer',
+    ),
 }
 
 # Internationalization

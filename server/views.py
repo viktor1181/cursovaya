@@ -11,6 +11,7 @@ import json
 from django.forms.models import model_to_dict
 from django.core.serializers.json import DjangoJSONEncoder
 
+
 # Create your views here.
 
 class EnginesListView(generics.ListAPIView):
@@ -40,6 +41,7 @@ class DrivesListView(generics.ListAPIView):
         data = serializers.serialize('json', queryset)
         return HttpResponse(data, content_type='application/json')
 
+
 class ModelsView(views.APIView):
 
     def get(self, request):
@@ -53,6 +55,7 @@ class ModelsView(views.APIView):
             return HttpResponse(serializer.data, status=status.HTTP_201_CREATED)
         return HttpResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class ModelsViewDelete(views.APIView):
 
     def get_object(self, pk):
@@ -60,6 +63,7 @@ class ModelsViewDelete(views.APIView):
             return Models.objects.get(pk=pk)
         except Models.DoesNotExist:
             raise Http404
+
     def put(self, request, pk, format=None):
         model = self.get_object(pk)
         serializer = ModelsListSerializer(model, data=request.data)
@@ -73,10 +77,16 @@ class ModelsViewDelete(views.APIView):
         model.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
+
 class ConfigurationView(views.APIView):
 
     def get(self, request):
-        data = serializers.serialize('json', Configuration.objects.all())
+        data = serializers.serialize('json', Configuration.objects.all(),
+                                     indent=3,
+                                     use_natural_foreign_keys=True,
+                                     use_natural_primary_keys=True
+                                     )
+        # data = serializers.CharField(source="engine.nameEngine")
         return HttpResponse(data, content_type='application/json')
 
     def post(self, request):
@@ -86,6 +96,7 @@ class ConfigurationView(views.APIView):
             return HttpResponse(serializer.data, status=status.HTTP_201_CREATED)
         return HttpResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class ConfigurationViewDelete(views.APIView):
 
     def get_object(self, pk):
@@ -93,6 +104,7 @@ class ConfigurationViewDelete(views.APIView):
             return Configuration.objects.get(pk=pk)
         except Configuration.DoesNotExist:
             raise Http404
+
     def put(self, request, pk, format=None):
         model = self.get_object(pk)
         serializer = ConfigurationListSerializer(model, data=request.data)
@@ -105,4 +117,3 @@ class ConfigurationViewDelete(views.APIView):
         model = self.get_object(pk)
         model.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
-
