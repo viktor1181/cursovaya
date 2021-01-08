@@ -84,36 +84,20 @@ class ModelsViewDelete(views.APIView):
 class ConfigurationView(views.APIView):
 
     def get(self, request):
-        # for price in Configuration.objects.all():
-        #     # Configuration.objects.create(price=price.price)
-        #     print(price.price)
-        # for price in Configuration.objects.all():
-        #     print(price.avg)
-        # p = Engines.objects.aggregate(num_books=Sum('price'))["num_books"]
-        # print(p)
-
         data = serializers.serialize('json', Configuration.objects.all(),
                                      indent=3,
                                      use_natural_foreign_keys=True,
                                      use_natural_primary_keys=True
                                      )
-
-        # data = ExtJsonSerializer().serialize(Configuration.objects.all(),
-        #                                      fields=('engine', 'transmission',
-        #                                              'drive', 'model'),
-        #                                      props=('sum', 'avg'),
-        #                                      use_natural_foreign_keys=True,
-        #                                      use_natural_primary_keys=True
-        #                                      )
         return HttpResponse(data, content_type='application/json')
 
 
-def post(self, request):
-    serializer = ConfigurationListSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return HttpResponse(serializer.data, status=status.HTTP_201_CREATED)
-    return HttpResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request):
+        serializer = ConfigurationListSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return HttpResponse(serializer.data, status=status.HTTP_201_CREATED)
+        return HttpResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ConfigurationViewDelete(views.APIView):
@@ -146,4 +130,3 @@ class SumView(views.APIView):
                                              props=('sum', 'avg'),
                                              )
         return HttpResponse(data, content_type='application/json')
-
