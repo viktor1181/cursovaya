@@ -25,4 +25,5 @@ urlpatterns = [
     path('models/<int:pk>', ModelsViewDelete.as_view()),
     path('configuration/', ConfigurationView.as_view()),
     path('configuration/<int:pk>', ConfigurationViewDelete.as_view()),
+    path('sum/', SumView.as_view()),
 ]
